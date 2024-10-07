@@ -73,6 +73,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         setBackground(Color.darkGray);
         setFocusable(true);
         addKeyListener(this);
+        requestFocusInWindow();
 
         //load images
         shipImg = new ImageIcon(getClass().getResource("./ship.png")).getImage();
@@ -229,35 +230,42 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {}
+public void keyPressed(KeyEvent e) {
+    if (gameOver) { //any key to restart
+        ship.x = shipX;
+        bulletArray.clear();
+        alienArray.clear();
+        gameOver = false;
+        score = 0;
+        alienColumns = 3;
+        alienRows = 2;
+        alienVelocityX = 1;
+        createAliens();
+        gameLoop.start();
+    } else {
+        if (e.getKeyCode() == KeyEvent.VK_LEFT && ship.x - shipVelocityX >= 0) {
+            ship.x -= shipVelocityX; //move left one tile
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT && ship.x + shipVelocityX + ship.width <= boardWidth) {
+            ship.x += shipVelocityX; //move right one tile
+        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            //shoot bullet
+            Block bullet = new Block(ship.x + shipWidth * 15 / 32, ship.y, bulletWidth, bulletHeight, null);
+            bulletArray.add(bullet);
+        }
+    }
+}
+
 
     @Override
     public void keyTyped(KeyEvent e) {}
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (gameOver) { //any key to restart
-            ship.x = shipX;
-            bulletArray.clear();
-            alienArray.clear();
-            gameOver = false;
-            score = 0;
-            alienColumns = 3;
-            alienRows = 2;
-            alienVelocityX = 1;
-            createAliens();
-            gameLoop.start();
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_LEFT  && ship.x - shipVelocityX >= 0) {
-            ship.x -= shipVelocityX; //move left one tile
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_RIGHT  && ship.x + shipVelocityX + ship.width <= boardWidth) {
-            ship.x += shipVelocityX; //move right one tile
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            //shoot bullet
-            Block bullet = new Block(ship.x + shipWidth*15/32, ship.y, bulletWidth, bulletHeight, null);
-            bulletArray.add(bullet);
-        }
+       if (e.getKeyCode()== KeyEvent.VK_LEFT && ship.x-shipVelocityX>=0){
+        ship.x-=shipVelocityX; //move to left ;
+       }
+       else if (e.getKeyCode()== KeyEvent.VK_RIGHT && ship.x + ship.width+ shipVelocityX<=boardWidth){
+        ship.x+=shipVelocityX;
+       }
     }
 }

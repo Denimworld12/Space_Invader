@@ -70,7 +70,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
 
     SpaceInvaders() {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
-        setBackground(Color.black);
+        setBackground(Color.darkGray);
         setFocusable(true);
         addKeyListener(this);
 

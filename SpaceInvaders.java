@@ -18,6 +18,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     Image alienCyanImg;
     Image alienMagentaImg;
     Image alienYellowImg;
+    Image backgroundImg ;
     ArrayList<Image> alienImgArray;
 
     class Block {
@@ -76,11 +77,13 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         requestFocusInWindow();
 
         //load images
-        shipImg = new ImageIcon(getClass().getResource("./ship.png")).getImage();
+        shipImg = new ImageIcon(getClass().getResource("./R.png")).getImage();
         alienImg = new ImageIcon(getClass().getResource("./alien.png")).getImage();
         alienCyanImg = new ImageIcon(getClass().getResource("./alien-cyan.png")).getImage();
         alienMagentaImg = new ImageIcon(getClass().getResource("./alien-magenta.png")).getImage();
         alienYellowImg = new ImageIcon(getClass().getResource("./alien-yellow.png")).getImage();
+        backgroundImg = new ImageIcon(getClass().getResource("./backg.jpg")).getImage(); // Load the background image
+
 
         alienImgArray = new ArrayList<Image>();
         alienImgArray.add(alienImg);
@@ -98,8 +101,14 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         gameLoop.start();
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
+        // Draw background image
+        g.drawImage(backgroundImg, 0, 0, boardWidth, boardHeight, null);
+        
+        // Draw other game elements
         draw(g);
     }
 
